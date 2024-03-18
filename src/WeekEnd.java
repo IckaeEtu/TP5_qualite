@@ -18,6 +18,8 @@ class Depense{
     public Personne getPersonne() {return this.pers;}
     public double getMontant() {return this.montant;}
     public String getProduit() {return this.produit;}
+	@Override
+	public String toString() {return this.pers.toString()+"a acheté "+this.produit+" "+String.valueOf(this.montant)+"€";}
 }
 
 class WeekEnd{
@@ -36,6 +38,12 @@ class WeekEnd{
     public List<Depense> getDepenses() {
 		return this.listeDepenses;
     }
+
+	public String affiche_depenses(){
+		String aff = "";
+		for (Depense depense:this.listeDepenses){aff += depense.toString()+ "\n";}
+		return aff;
+	}
     
     public void ajouterPersonne(Personne p){this.listeAmis.add(p);}
     

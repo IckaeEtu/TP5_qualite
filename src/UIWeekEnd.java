@@ -78,7 +78,7 @@ class AppWeekEnd {
 			System.out.println(we.getAmis());
 			commande_faite = true;
 		} else if (commande.equals("d")) {
-			System.out.println(we.getDepenses());
+			System.out.println(we.affiche_depenses());
 			commande_faite = true;
 		} else {
 		System.out.println("Commande '" + commande_brute + "' invalide.");
