@@ -69,6 +69,8 @@ class AppWeekEnd {
 				System.out.println("Vous avez selectionné " + personne.toString());
 			} catch (NumberFormatException e) {
 				System.out.println("Vous n'avez pas donner un nombre");
+			} catch (IndexOutOfBoundsException e) {
+				System.out.println("Veuillez sélectionner un nombre valide");
 			}
 			commande_faite = true;
 		} else {
@@ -80,7 +82,7 @@ class AppWeekEnd {
 	public void selection(String num) {this.personne = we.getAmis().get(Integer.parseInt(num));}
 
 	public void menuDepense(){
-		
+
 	}
 
 
