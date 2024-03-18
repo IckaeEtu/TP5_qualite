@@ -21,16 +21,6 @@ class UIWeekEnd {
 	we.ajouterDepense(d4);   
 	we.ajouterDepense(d3);
 	we.ajouterDepense(d5);
-	System.out.println("total des dépenses "+we.totalDepenses()) ;
-	System.out.println("moyenne des dépenses "+we.depensesMoyenne()) ;
-	System.out.println("total des dépenses de Pierre "+ we.totalDepensesPersonne(pierre)) ;
-	System.out.println("total des dépenses de Paul "+ we.totalDepensesPersonne(paul)) ;
-	System.out.println("total des dépenses de Marie "+ we.totalDepensesPersonne(marie)) ;
-	System.out.println("total des dépenses de Anne "+ we.totalDepensesPersonne(anne)) ;
-	System.out.println("depenses vin "+we.depenseProduit("vin"));
-	System.out.println("avoir de pierre "+we.avoirPersonne(pierre));
-	System.out.println("avoir de paul "+we.avoirPersonne(paul));	
-	System.out.println("avoir de marie "+we.avoirPersonne(marie));
 	app.run();
     }
 }
@@ -39,6 +29,7 @@ class AppWeekEnd {
 
     WeekEnd we;
     boolean quitter;
+	private Personne personne = null;
 
     AppWeekEnd(WeekEnd we) {
 	this.we = we;
@@ -54,6 +45,45 @@ class AppWeekEnd {
 	au_revoir();
     }
 
+	public void menuPersonne(){
+		System.out.println(we.getAmis());
+		boolean commande_faite = false;
+		while(!commande_faite) {
+		System.out.println("Que voulez vous faire?");
+	    System.out.println("L: Liste");
+		System.out.println("S: Sélection");
+		System.out.println("Q: Quitter");
+		String commande_brute = System.console().readLine();
+	    String commande = commande_brute.strip().toLowerCase();
+		if(commande.equals("q")) {
+			quitter = true;
+			commande_faite = true;
+		} else if (commande.equals("l")) {
+			System.out.println(we.getAmis());
+			commande_faite = true;
+		} else if (commande.equals("s")) {
+			System.out.println("Donnez le matricule de la personne à sélectionner");
+			String num = System.console().readLine();
+			try {
+				selection(num);
+				System.out.println("Vous avez selectionné " + personne.toString());
+			} catch (NumberFormatException e) {
+				System.out.println("Vous n'avez pas donner un nombre");
+			}
+			commande_faite = true;
+		} else {
+			System.out.println("Commande '" + commande_brute + "' invalide.");
+		}
+		}
+	}
+
+	public void selection(String num) {this.personne = we.getAmis().get(Integer.parseInt(num));}
+
+	public void menuDepense(){
+		
+	}
+
+
     public void menu() {
 	boolean commande_faite = false;
 	while(!commande_faite) {
@@ -66,8 +96,8 @@ class AppWeekEnd {
 	    String commande_brute = System.console().readLine();
 	    String commande = commande_brute.strip().toLowerCase();
 	    if(commande.equals("q")) {
-		quitter = true;
-		commande_faite = true;
+			quitter = true;
+			commande_faite = true;
 	    } else if (commande.equals("m")) {
 			System.out.println(we.depensesMoyenne());
 			commande_faite = true;
@@ -75,7 +105,7 @@ class AppWeekEnd {
 			System.out.println(we.totalDepenses());
 			commande_faite = true;
 		} else if (commande.equals("p")) {
-			System.out.println(we.getAmis());
+			this.menuPersonne();
 			commande_faite = true;
 		} else if (commande.equals("d")) {
 			System.out.println(we.affiche_depenses());
