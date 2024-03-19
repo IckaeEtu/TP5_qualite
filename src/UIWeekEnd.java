@@ -1,3 +1,4 @@
+package fr.univ_orleans.iut45.mud;
 class UIWeekEnd {    
     public static void main(String[] args) {
 	WeekEnd we = new WeekEnd();
@@ -49,18 +50,28 @@ class AppWeekEnd {
 		System.out.println(we.getAmis());
 		boolean commande_faite = false;
 		while(!commande_faite) {
-		System.out.println("Que voulez vous faire?");
-	    System.out.println("L: Liste");
-		System.out.println("S: Sélection");
-		System.out.println("Q: Quitter");
+		System.out.println("╭──────────────────────╮");
+		System.out.println("│Que voulez vous faire?│");
+	    System.out.println("│L: Liste              │");
+		System.out.println("│S: Sélection          │");
+		System.out.println("│T: Total dépense      │");
+		System.out.println("│A: Avoir              │");
+		System.out.println("│+: Ajouter quelqu'un  │");
+		System.out.println("│Q: Quitter            │");
+		System.out.println("╰──────────────────────╯");
 		String commande_brute = System.console().readLine();
 	    String commande = commande_brute.strip().toLowerCase();
 		if(commande.equals("q")) {
-			quitter = true;
 			commande_faite = true;
 		} else if (commande.equals("l")) {
 			System.out.println(we.getAmis());
 			commande_faite = true;
+		} else if (commande.equals("t")){
+			if (this.personne != null) {
+				System.out.println(this.personne.getPrenom() + "a dépensé " + we.totalDepensesPersonne(this.personne)+"€");
+			} else {
+				System.out.println("Veuillez sélectioner quelqu'un d'abord");	
+			}
 		} else if (commande.equals("s")) {
 			System.out.println("Donnez le matricule de la personne à sélectionner");
 			String num = System.console().readLine();
@@ -72,29 +83,90 @@ class AppWeekEnd {
 			} catch (IndexOutOfBoundsException e) {
 				System.out.println("Veuillez sélectionner un nombre valide");
 			}
+		} else if (commande.equals("a")) {
+			if (this.personne != null) {
+				System.out.println(this.personne.getPrenom() + "a un avoir de " + we.avoirPersonne(this.personne)+"€");
+				
+			} else {
+				System.out.println("Veuillez sélectioner quelqu'un d'abord");
+			}
+		} else if (commande.equals("+")) {
+			this.ajout();
+		} else {
+			System.out.println("Commande '" + commande_brute + "' invalide.");
+		}
+		}
+	}
+	
+	public void ajout(){
+		System.out.println("Quel est son nom");
+		String nom = System.console().readLine();
+		System.out.println("Quel est son prenom");
+		String prenom = System.console().readLine();
+		Personne personneAjout = new Personne(nom, prenom);
+		we.ajouterPersonne(personneAjout);
+		System.out.println(nom + " " + prenom + " a été ajoutée");
+	}
+
+	public void selection(String num) {this.personne = we.getAmis().get(Integer.parseInt(num));}
+
+	public void menuDepense(){
+		System.out.println(we.getAmis());
+		boolean commande_faite = false;
+		while(!commande_faite) {
+			System.out.println("╭──────────────────────╮");
+			System.out.println("│Que voulez vous faire?│");
+			System.out.println("│L: Liste des dépenses │");
+			System.out.println("│+: Ajouter dépenses   │");
+			System.out.println("│Q: Quitter            │");
+			System.out.println("╰──────────────────────╯");
+		String commande_brute = System.console().readLine();
+	    String commande = commande_brute.strip().toLowerCase();
+		if(commande.equals("q")) {
 			commande_faite = true;
+		} else if (commande.equals("l")){
+			System.out.println("Voici toutes les dépenses du weekend");
+			System.out.println(we.affiche_depenses());
+		} else if (commande.equals("+")) {
+			this.saisie_depense();
 		} else {
 			System.out.println("Commande '" + commande_brute + "' invalide.");
 		}
 		}
 	}
 
-	public void selection(String num) {this.personne = we.getAmis().get(Integer.parseInt(num));}
-
-	public void menuDepense(){
+	public void saisie_depense(){
+		System.out.println("C'est quoi ce truc là ?");
+		String nomProduit = System.console().readLine();
+		System.out.println("Combien que ça coûte mon copain ?");
+		String prixProduit = System.console().readLine();
+		try {
+			Integer prix = Integer.parseInt(prixProduit);
+			System.out.println(we.getAmis());
+			System.out.println("Sélectionnez l'indice de quelqu'un");
+			String num = System.console().readLine();
+			this.selection(num);
+			System.out.println("Vous avez selectionné " + personne.toString());
+			we.ajouterDepense(new Depense(this.personne, prix, nomProduit));
+		} catch (NumberFormatException e) {
+			System.out.println("Veuillez sélectionner un nombre");
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Veuillez sélectionner un indice valide");
+		}
 
 	}
-
 
     public void menu() {
 	boolean commande_faite = false;
 	while(!commande_faite) {
-	    System.out.println("Que voulez vous faire?");
-	    System.out.println("P: Voir les personnes du weekend");
-		System.out.println("D: Voir les dépense du weekend");
-		System.out.println("T: Voir le total des dépense du weekend");
-		System.out.println("M: Voir la moyenne des dépenses par personnes");
-		System.out.println("Q: quitter");
+		System.out.println("╭────────────────────────╮");
+		System.out.println("│Que voulez vous faire?  │");
+	    System.out.println("│P: Voir les personnes   │");
+		System.out.println("│D: Voir les dépenses    │");
+		System.out.println("│T: Voir total dépense   │");
+		System.out.println("│M: Voirs moyenne dépense│");
+		System.out.println("│Q: Quitter              │");
+		System.out.println("╰────────────────────────╯");
 	    String commande_brute = System.console().readLine();
 	    String commande = commande_brute.strip().toLowerCase();
 	    if(commande.equals("q")) {
@@ -110,7 +182,7 @@ class AppWeekEnd {
 			this.menuPersonne();
 			commande_faite = true;
 		} else if (commande.equals("d")) {
-			System.out.println(we.affiche_depenses());
+			this.menuDepense();
 			commande_faite = true;
 		} else {
 		System.out.println("Commande '" + commande_brute + "' invalide.");
