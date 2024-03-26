@@ -1,4 +1,3 @@
-package fr.univ_orleans.iut45.mud;
 import java.util.ArrayList;
 import java.util.List; 
 class Personne{

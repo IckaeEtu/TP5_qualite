@@ -1,4 +1,3 @@
-package fr.univ_orleans.iut45.mud;
 class UIWeekEnd {    
     public static void main(String[] args) {
 	WeekEnd we = new WeekEnd();
@@ -141,7 +140,7 @@ class AppWeekEnd {
 		System.out.println("Combien que ça coûte mon copain ?");
 		String prixProduit = System.console().readLine();
 		try {
-			Integer prix = Integer.parseInt(prixProduit);
+			Double prix = Double.parseDouble(prixProduit);
 			System.out.println(we.getAmis());
 			System.out.println("Sélectionnez l'indice de quelqu'un");
 			String num = System.console().readLine();
